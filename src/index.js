@@ -1,32 +1,30 @@
 import React, { Component } from 'react';
 import {  View, Text, } from 'react-native';
-import IndexComponent from "./components/index";
 
-import { createStore, applyMiddleware, compose } from "redux";
-import createSagaMiddleware from "redux-saga";
-import { Provider } from "react-redux";
 
-import { Reducer } from "./redux";
-import { watcherSaga } from "./saga";
 
-// create the saga middleware
+
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import { ImageReducer } from './features/getimage/getimage.reducer';
+import createSagaMiddleware from 'redux-saga';
+import GetimageComponent from './features/getimage/getimage.component';
+import { rootSaga } from './store/saga';
+
 const sagaMiddleware = createSagaMiddleware();
-
-// create a redux store with our reducer above and middleware
-let store = createStore(
-  Reducer,
-  applyMiddleware(sagaMiddleware)
+const store = createStore(
+    combineReducers({ ImageReducer }),
+    applyMiddleware(sagaMiddleware)
 );
 
-// run the saga
-sagaMiddleware.run(watcherSaga);
+sagaMiddleware.run(rootSaga);
 
-export default class Index extends Component {
-  render() {
-    return (
+export default class App extends Component {
+    render() {
+      return (
         <Provider store={store}>
-            <IndexComponent />
+            <GetimageComponent />
         </Provider>
-    );
+      );
+    }
   }
-}
