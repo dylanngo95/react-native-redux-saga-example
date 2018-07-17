@@ -4,8 +4,8 @@ import { fetchDog, fetchDogErrorUrl } from '../api';
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
 export function* rootSaga() {
-  yield takeEvery(ImageType.API_CALL_REQUEST, fetchImageDog);
-  yield takeEvery(ImageType.API_CALL_REQUEST_ERROR, fetchDogImageError)
+  yield takeLatest(ImageType.API_CALL_REQUEST, fetchImageDog);
+  yield takeLatest(ImageType.API_CALL_REQUEST_ERROR, fetchDogImageError)
 }
 
 // worker saga: makes the api call when watcher saga sees the action
